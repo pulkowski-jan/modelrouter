@@ -1,0 +1,28 @@
+host: 127.0.0.1
+port: 8080
+db_path: router.sqlite
+
+models:
+  classifier:       local/qwen3-4b-q4_k_m
+  fast_local:       local/qwen3-4b-q4_k_m
+  strong_local:     local/qwen3-8b-q4_k_m
+  remote_coding:    openrouter/qwen/qwen3-coder
+  remote_reasoning: openrouter/deepseek/deepseek-v3.2
+
+backends:
+  local/qwen3-4b-q4_k_m:
+    base_url: http://127.0.0.1:8082/v1
+    context: 4096
+  local/qwen3-8b-q4_k_m:
+    base_url: http://127.0.0.1:8081/v1
+    context: 8192
+  openrouter:
+    base_url: https://openrouter.ai/api/v1
+    api_key_env: OPENROUTER_API_KEY
+
+policy:
+  daily_budget_usd: 2.0
+  classifier_timeout_s: 3.0
+  completion_reserve_tokens: 1024
+  chars_per_token: 3.0
+  sticky_ttl_s: 3600
